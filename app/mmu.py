@@ -136,6 +136,7 @@ class MemoryManager:
 
     def get_memory_blocks(self):
         blocks = []
+        # Include all processes as allocated blocks
         for pid, process in self.processes.items():
             blocks.append({
                 'pid': pid,
@@ -144,6 +145,8 @@ class MemoryManager:
                 'size': process.size,
                 'type': 'allocated'
             })
+
+        # Include all free blocks
         for base, limit in self.free_blocks:
             blocks.append({
                 'pid': None,
@@ -152,4 +155,27 @@ class MemoryManager:
                 'size': limit - base + 1,
                 'type': 'free'
             })
+
+        # Sort blocks by the base address
+        blocks.sort(key=lambda block: block['base'])
         return blocks
+
+    def get_memory_map_as_list(self):
+        memory_map = []
+        for pid, process in self.processes.items():
+            memory_map.append({
+                'Type': 'Process',
+                'PID': pid,
+                'Base': process.base,
+                'Limit': process.limit,
+                'Size': process.size
+            })
+        for base, limit in self.free_blocks:
+            memory_map.append({
+                'Type': 'Free',
+                'PID': 'None',
+                'Base': base,
+                'Limit': limit,
+                'Size': limit - base + 1
+            })
+        return memory_map

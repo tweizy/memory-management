@@ -29,15 +29,36 @@ def operation():
         pid, base, limit = mmu.allocate_memory(size)
         if pid:
             return jsonify(success=True, message=f'Process {pid} created.', pid=pid, base=base, limit=limit)
-        else:
-            return jsonify(success=False, message="Not enough memory")
-    # Implement additional actions with similar structure
+        return jsonify(success=False, message="Not enough memory")
+    elif action == 'delete':
+        pid = int(request.form['pid'])
+        success = mmu.delete_process(pid)
+        if success:
+            return jsonify(success=True, message=f"Process {pid} deleted.")
+        return jsonify(success=False, message=f"Process ID {pid} not found.")
+    elif action == 'convert':
+        pid = int(request.form['pid'])
+        virtual_address = int(request.form['virtual_address'])
+        result = mmu.convert_address(pid, virtual_address)
+        if isinstance(result, str):  # Checking if the result is an error message
+            return jsonify(success=False, message=result)
+        physical_address = result
+        return jsonify(success=True, message=f"Physical Address: {physical_address}", physical_address=physical_address)
     return jsonify(success=False, message="Invalid action")
+
+
 
 
 @app.route('/memory_blocks', methods=['GET'])
 def memory_blocks():
-    return jsonify(blocks=mmu.get_memory_blocks())
+    blocks = mmu.get_memory_blocks()
+    total_memory = mmu.total_memory  # Ensure this is updated on memory reinitialization
+    return jsonify(blocks=blocks, total_memory=total_memory)
+
+@app.route('/fetch_memory_map', methods=['GET'])
+def fetch_memory_map():
+    memory_map = mmu.get_memory_map_as_list()  # Assume this method returns list of dicts
+    return jsonify(memory_map=memory_map)
 
 
 

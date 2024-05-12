@@ -13,19 +13,23 @@
         <button type="button" onclick="submitOperationForm('createForm')">Create Process</button>
     </form>
     <form id="deleteForm" action="/operation" method="post">
-        <input type="hidden" name="action" value="delete">
-        <input type="number" name="pid" placeholder="Process ID" required>
-        <button type="button" onclick="submitOperationForm('deleteForm')">Delete Process</button>
-    </form>
+    <input type="hidden" name="action" value="delete">
+    <input type="number" name="pid" placeholder="Process ID" required>
+    <button type="button" onclick="submitOperationForm('deleteForm')">Delete Process</button>
+</form>
+
     <form id="convertForm" action="/operation" method="post">
-        <input type="hidden" name="action" value="convert">
-        <input type="number" name="pid" placeholder="Process ID" required>
-        <input type="number" name="virtual_address" placeholder="Virtual Address" required>
-        <button type="button" onclick="submitOperationForm('convertForm')">Convert Address</button>
-    </form>
-    <button onclick="fetchMemoryMap()">Print Memory Map</button>
+    <input type="hidden" name="action" value="convert">
+    <input type="number" name="pid" placeholder="Process ID" required>
+    <input type="number" name="virtual_address" placeholder="Virtual Address" required>
+    <button type="button" onclick="submitOperationForm('convertForm')">Convert Address</button>
+</form>
+<div id="conversionResult"></div>
+
+<button onclick="printMemoryMap()">Print Memory Map</button>
+<div id="memoryMapTable"></div>
 <!-- Add this inside the <body> tag -->
-<div id="memoryVisualization" style="width: 100%; white-space: nowrap; overflow-x: auto;"></div>
+<div id="memoryVisualization" style="width: 100%;"></div>
     <div id="memoryMap"></div>
     <button onclick="window.location='/'">Restart Simulation</button>
     <script src="/static/script.js"></script>

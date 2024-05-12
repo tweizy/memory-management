@@ -52,14 +52,21 @@ button:hover {
     overflow-x: auto;
 }
 
-.memory-block {
-    height: 40px;
-    display: inline-block;
-    margin: 2px;
-    /*color: white;*/
-    text-align: center;
-    line-height: 40px;
+#memoryVisualization {
+    width: 100%;
     border: 1px solid black;
+    overflow: hidden;  /* Ensures everything fits within the container */
+    white-space: nowrap;  /* Keeps blocks in a single line */
+}
+
+.memory-block {
+    display: inline-block;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    color: white;
+    border-left: 1px solid black;
+    box-sizing: border-box; /* Includes padding and border in the width */
 }
 
 .free {
@@ -68,5 +75,15 @@ button:hover {
 
 .allocated {
     background-color: #ff6961;  /* Light red for allocated memory */
+}
+table.memory-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+table.memory-table, table.memory-table th, table.memory-table td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
 }
 

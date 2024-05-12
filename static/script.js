@@ -59,15 +59,67 @@ function fetchMemoryMap() {
     .then(data => {
         const visualization = document.getElementById('memoryVisualization');
         visualization.innerHTML = '';  // Clear existing visualization
+        const totalMemory = data.blocks.reduce((acc, block) => acc + block.size, 0);
         data.blocks.forEach(block => {
             const blockDiv = document.createElement('div');
             blockDiv.className = 'memory-block';
             blockDiv.classList.add(block.pid ? 'allocated' : 'free');
-            blockDiv.style.width = `${block.size * 5}px`;  // Adjust size for better visibility
+            const blockWidth = (block.size / totalMemory) * 100;
+            blockDiv.style.width = `${blockWidth}%`;  // Set width as a percentage of total memory
             blockDiv.textContent = block.pid ? `PID ${block.pid}: ${block.size}KB` : `Free: ${block.size}KB`;
             visualization.appendChild(blockDiv);
         });
     })
     .catch(error => console.error('Error fetching memory map:', error));
 }
+function submitOperationForm(formId) {
+    const form = document.getElementById(formId);
+    const formData = new FormData(form);
+    fetch('/operation', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (formId === 'convertForm') {
+            const conversionResult = document.getElementById('conversionResult');
+            conversionResult.textContent = data.message;  // Display conversion result or error
+        }
+        if (data.success) {
+            alert(data.message);
+            fetchMemoryMap();  // Update memory visualization if necessary
+        } else {
+            alert(data.message);
+        }
+    })
+    .catch(error => alert('Error processing operation: ' + error));
+}
+function printMemoryMap() {
+    fetch('/fetch_memory_map')
+    .then(response => response.json())
+    .then(data => {
+        const tableContainer = document.getElementById('memoryMapTable');
+        tableContainer.innerHTML = '';  // Clear previous content
+        const table = document.createElement('table');
+        table.classList.add('memory-table');
+        const headerRow = table.insertRow();
+        const headers = ['Type', 'PID', 'Base', 'Limit', 'Size'];
+        headers.forEach(headerText => {
+            let headerCell = document.createElement('th');
+            headerCell.textContent = headerText;
+            headerRow.appendChild(headerCell);
+        });
+
+        data.memory_map.forEach(rowData => {
+            const row = table.insertRow();
+            headers.forEach(header => {
+                const cell = row.insertCell();
+                cell.textContent = rowData[header];
+            });
+        });
+        tableContainer.appendChild(table);
+    })
+    .catch(error => console.error('Error fetching memory map:', error));
+}
+
 
