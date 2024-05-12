@@ -133,3 +133,23 @@ class MemoryManager:
             print(f"Process {pid}: Base={process.base}, Limit={process.limit}")
         for base, limit in self.free_blocks:
             print(f"Free: Base={base}, Limit={limit}")
+
+    def get_memory_blocks(self):
+        blocks = []
+        for pid, process in self.processes.items():
+            blocks.append({
+                'pid': pid,
+                'base': process.base,
+                'limit': process.limit,
+                'size': process.size,
+                'type': 'allocated'
+            })
+        for base, limit in self.free_blocks:
+            blocks.append({
+                'pid': None,
+                'base': base,
+                'limit': limit,
+                'size': limit - base + 1,
+                'type': 'free'
+            })
+        return blocks

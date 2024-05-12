@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Initialize Memory Management</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h1>Initialize Memory Management Unit</h1>
+    <form action="/" method="POST">
+        Total Memory (KB): <input type="number" name="total_memory" value="10000" required>
+        Strategy:
+        <select name="strategy">
+            <option value="1">First Fit</option>
+            <option value="2">Next Fit</option>
+            <option value="3">Best Fit</option>
+            <option value="4">Worst Fit</option>
+        </select>
+        <button type="submit">Initialize</button>
+    </form>
+</body>
+</html>

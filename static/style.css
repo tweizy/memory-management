@@ -1,0 +1,72 @@
+/* static/style.css */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 20px;
+    color: #333;
+}
+
+h1 {
+    color: #333;
+}
+
+form, #controls {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+input, select, button {
+    padding: 10px;
+    margin-right: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+#output {
+    padding: 20px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.memory-map {
+    margin-top: 20px;
+    display: flex;
+    align-items: flex-start;
+    overflow-x: auto;
+}
+
+.memory-block {
+    height: 40px;
+    display: inline-block;
+    margin: 2px;
+    /*color: white;*/
+    text-align: center;
+    line-height: 40px;
+    border: 1px solid black;
+}
+
+.free {
+    background-color: #77dd77;  /* Light green for free memory */
+}
+
+.allocated {
+    background-color: #ff6961;  /* Light red for allocated memory */
+}
+
