@@ -25,7 +25,8 @@ class MemoryManager:
     def first_fit(self, size):
         for i, (base, limit) in enumerate(self.free_blocks):
             if limit - base + 1 >= size:
-                pid = len(self.processes) + 1
+                self.last_allocated += 1
+                pid = self.last_allocated
                 self.processes[pid] = Process(pid, size, base)
                 new_base = base + size
                 if new_base <= limit:
@@ -42,7 +43,8 @@ class MemoryManager:
             for i in range(start_index, len(self.free_blocks)):
                 base, limit = self.free_blocks[i]
                 if limit - base + 1 >= size:
-                    pid = len(self.processes) + 1
+                    self.last_allocated_pid += 1
+                    pid = self.last_allocated
                     self.processes[pid] = Process(pid, size, base)
                     new_base = base + size
                     if new_base <= limit:
@@ -66,7 +68,8 @@ class MemoryManager:
                 best_index = i
         if best_index is not None:
             base, limit = self.free_blocks[best_index]
-            pid = len(self.processes) + 1
+            self.last_allocated += 1
+            pid = self.last_allocated
             self.processes[pid] = Process(pid, size, base)
             new_base = base + size
             if new_base <= limit:
@@ -85,7 +88,8 @@ class MemoryManager:
                 worst_index = i
         if worst_index is not None:
             base, limit = self.free_blocks[worst_index]
-            pid = len(self.processes) + 1
+            self.last_allocated += 1
+            pid = self.last_allocated
             self.processes[pid] = Process(pid, size, base)
             new_base = base + size
             if new_base <= limit:

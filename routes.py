@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify
+from flask import Flask, render_template, request, redirect, url_for, jsonify # type: ignore
 from app.mmu import MemoryManager
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
