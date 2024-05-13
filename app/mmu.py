@@ -134,9 +134,9 @@ class MemoryManager:
     def print_memory_map(self):
         print("Memory Map:")
         for pid, process in self.processes.items():
-            print(f"Process {pid}: Base={process.base}, Limit={process.limit}")
+            print(f"Process {pid}: Base={process.base}, Limit={process.limit +1}")
         for base, limit in self.free_blocks:
-            print(f"Free: Base={base}, Limit={limit}")
+            print(f"Free: Base={base}, Limit={limit +1}")
 
     def get_memory_blocks(self):
         blocks = []

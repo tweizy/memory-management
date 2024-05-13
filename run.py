@@ -24,7 +24,7 @@ if __name__ == "__main__":
         if cmd_type == "cr" and len(command) == 2:
             pid, base, limit = mmu.allocate_memory(int(command[1]))
             if pid:
-                print(f"Created process {pid} with Base={base} and Limit={limit - base}")
+                print(f"Created process {pid} with Base={base} and Limit={limit - base +1}")
             else:
                 print("Error: Not enough memory")
         elif cmd_type == "dl" and len(command) == 2:
