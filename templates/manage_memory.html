@@ -3,51 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <title>Memory Management Simulation</title>
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
-    <link href='/static/manage.css' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/manage.css" rel="stylesheet">
 </head>
 <body>
-    <div id="mainContainer">
-        <div id="title">
-            <h1>Memory Management</h1>
-            <h3>An Online Simulation</h3>
-        </div>
-    <div id="messageDisplay"></div>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Memory Management</h1>
+        <div class="row">
+            <div class="col-md-6">
+                <div id="formsContainer" class="mb-3">
+                    <form id="createForm" class="form-inline mb-2">
+                        <input type="number" name="size" class="form-control mr-2" placeholder="Memory size (KB)" required>
+                        <button type="submit" class="btn btn-primary">Add Process</button>
+                    </form>
 
-        <div id="leftContainer">
-            <h2>Add Process</h2>
-            <form id="createForm">
-                <input type="number" name="size" placeholder="Memory size (KB)" required>
-                <button type="submit">Add Process</button>
-            </form>
+                    <form id="deleteForm" class="form-inline mb-2">
+                        <input type="number" name="pid" class="form-control mr-2" placeholder="Process ID" required>
+                        <button type="submit" class="btn btn-danger">Delete Process</button>
+                    </form>
 
-            <h2>Delete Process</h2>
-            <form id="deleteForm">
-                <input type="number" name="pid" placeholder="Process ID" required>
-                <button type="submit">Delete Process</button>
-            </form>
+                    <form id="convertForm" class="form-inline">
+                        <input type="number" name="pid" class="form-control mr-2" placeholder="Process ID" required>
+                        <input type="number" name="virtual_address" class="form-control mr-2" placeholder="Virtual Address" required>
+                        <button type="submit" class="btn btn-success">Convert Address</button>
+                    </form>
+                </div>
 
-            <h2>Convert Address</h2>
-            <form id="convertForm">
-                <input type="number" name="pid" placeholder="Process ID" required>
-                <input type="number" name="virtual_address" placeholder="Virtual Address" required>
-                <button type="submit">Convert Address</button>
-            </form>
+                <div id="messageDisplay" class="alert alert-info"></div>
 
-            <h2>Process Queue</h2>
-            <table id="processTable">
-                <tr>
-                    <th>Process ID</th>
-                    <th>Size (K)</th>
-                    <th>Time Units Remaining</th>
-                </tr>
-            </table>
-        </div>
+                <div class="table-responsive">
+                    <table id="processTable" class="table table-striped">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Process ID</th>
+                                <th>Size (K)</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
 
-        <div id="rightContainer">
-            <div id="memoryVisualization" style="height: 80vh; background-color: #34495e;"></div>
+            <div class="col-md-6">
+                <div id="memoryVisualization"></div>
+            </div>
         </div>
     </div>
+
     <script src="/static/script.js"></script>
 </body>
 </html>

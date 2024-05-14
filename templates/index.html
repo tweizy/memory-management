@@ -3,20 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <title>Initialize Memory Management</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-    <h1>Initialize Memory Management Unit</h1>
-    <form action="/" method="POST">
-        Total Memory (KB): <input type="number" name="total_memory" value="10000" required>
-        Strategy:
-        <select name="strategy">
-            <option value="1">First Fit</option>
-            <option value="2">Next Fit</option>
-            <option value="3">Best Fit</option>
-            <option value="4">Worst Fit</option>
-        </select>
-        <button type="submit">Initialize</button>
-    </form>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Initialize Memory Management Unit</h1>
+        <div class="card p-4 shadow-sm">
+            <form action="/" method="POST">
+                <div class="form-group">
+                    <label>Total Memory (KB):</label>
+                    <input type="number" name="total_memory" value="10000" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Strategy:</label>
+                    <select name="strategy" class="form-control">
+                        <option value="1">First Fit</option>
+                        <option value="2">Next Fit</option>
+                        <option value="3">Best Fit</option>
+                        <option value="4">Worst Fit</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Initialize</button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>

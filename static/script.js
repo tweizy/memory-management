@@ -64,14 +64,15 @@ function fetchMemoryMap() {
 
 function updateMemoryVisualization(blocks) {
     const visualization = document.getElementById('memoryVisualization');
-    visualization.innerHTML = '';
+    visualization.innerHTML = ''; // Clear existing visualization
     blocks.forEach(block => {
         const blockDiv = document.createElement('div');
         blockDiv.className = `memory-block ${block.pid ? 'allocated' : 'free'}`;
-        blockDiv.textContent = block.pid ? `PID ${block.pid}: ${block.size}KB` : `Free: ${block.size}KB`;
+        blockDiv.textContent = `${block.pid ? `PID ${block.pid}: ${block.size}KB` : `Free: ${block.size}KB`}`;
         visualization.appendChild(blockDiv);
     });
 }
+
 
 function updateMemoryTable(blocks) {
     const table = document.getElementById('processTable');

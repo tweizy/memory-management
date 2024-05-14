@@ -64,18 +64,17 @@ body {
 #memoryVisualization {
     width: 100%;
     border: 1px solid black;
-    overflow: hidden;  /* Ensures everything fits within the container */
+    height : 800px;
+    overflow-y: auto;  /* Ensures everything fits within the container */
     white-space: nowrap;  /* Keeps blocks in a single line */
 }
 
 .memory-block {
-    width: 100%;
     padding: 10px;
-    margin: 2px 0;
+    margin: 1px 0;
     color: white;
     text-align: center;
-    position: relative;
-    box-sizing: border-box;
+    background-color: #aaa; /* Default color, should be overwritten by JavaScript */
 }
 
 .free {
@@ -91,4 +90,13 @@ body {
     font-size: 16px;
     font-weight: bold;
     color: #d35400;
+}
+#processTable {
+    height: 300px; /* Fixed height for the table to enable scrolling */
+    overflow-y: auto; /* Enables scrolling for the table */
+    background-color: #ffffff; /* Light background for the table */
+    border-radius: 0.25rem; /* Adds rounded corners */
+}
+.table th, .table td {
+    color: #333; /* Darker text for readability */
 }
