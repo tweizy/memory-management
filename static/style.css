@@ -37,45 +37,8 @@ button:hover {
     background-color: #0056b3;
 }
 
-#output {
-    padding: 20px;
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    margin-top: 20px;
-}
 
-.memory-map {
-    margin-top: 20px;
-    display: flex;
-    align-items: flex-start;
-    overflow-x: auto;
-}
 
-#memoryVisualization {
-    width: 100%;
-    border: 1px solid black;
-    overflow: hidden;  /* Ensures everything fits within the container */
-    white-space: nowrap;  /* Keeps blocks in a single line */
-}
-
-.memory-block {
-    display: inline-block;
-    height: 40px;
-    line-height: 40px;
-    text-align: center;
-    color: white;
-    border-left: 1px solid black;
-    box-sizing: border-box; /* Includes padding and border in the width */
-}
-
-.free {
-    background-color: #77dd77;  /* Light green for free memory */
-}
-
-.allocated {
-    background-color: #ff6961;  /* Light red for allocated memory */
-}
 table.memory-table {
     width: 100%;
     border-collapse: collapse;
