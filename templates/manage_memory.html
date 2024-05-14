@@ -2,36 +2,51 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Manage Memory</title>
-    <link rel="stylesheet" href="/static/style.css">
+    <title>Memory Management Simulation</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+    <link href='/static/manage.css' rel='stylesheet' type='text/css'>
 </head>
 <body>
-    <h1>Memory Operations</h1>
-    <form id="createForm" action="/operation" method="post">
-        <input type="hidden" name="action" value="create">
-        <input type="number" name="size" placeholder="Memory size (KB)" required>
-        <button type="button" onclick="submitOperationForm('createForm')">Create Process</button>
-    </form>
-    <form id="deleteForm" action="/operation" method="post">
-    <input type="hidden" name="action" value="delete">
-    <input type="number" name="pid" placeholder="Process ID" required>
-    <button type="button" onclick="submitOperationForm('deleteForm')">Delete Process</button>
-</form>
+    <div id="mainContainer">
+        <div id="title">
+            <h1>Memory Management</h1>
+            <h3>An Online Simulation</h3>
+        </div>
 
-    <form id="convertForm" action="/operation" method="post">
-    <input type="hidden" name="action" value="convert">
-    <input type="number" name="pid" placeholder="Process ID" required>
-    <input type="number" name="virtual_address" placeholder="Virtual Address" required>
-    <button type="button" onclick="submitOperationForm('convertForm')">Convert Address</button>
-</form>
-<div id="conversionResult"></div>
+        <div id="leftContainer">
+            <h2>Add Process</h2>
+            <form id="createForm">
+                <input type="number" name="size" placeholder="Memory size (KB)" required>
+                <button type="submit">Add Process</button>
+            </form>
 
-<button onclick="printMemoryMap()">Print Memory Map</button>
-<div id="memoryMapTable"></div>
-<!-- Add this inside the <body> tag -->
-<div id="memoryVisualization" style="width: 100%;"></div>
-    <div id="memoryMap"></div>
-    <button onclick="window.location='/'">Restart Simulation</button>
+            <h2>Delete Process</h2>
+            <form id="deleteForm">
+                <input type="number" name="pid" placeholder="Process ID" required>
+                <button type="submit">Delete Process</button>
+            </form>
+
+            <h2>Convert Address</h2>
+            <form id="convertForm">
+                <input type="number" name="pid" placeholder="Process ID" required>
+                <input type="number" name="virtual_address" placeholder="Virtual Address" required>
+                <button type="submit">Convert Address</button>
+            </form>
+
+            <h2>Process Queue</h2>
+            <table id="processTable">
+                <tr>
+                    <th>Process ID</th>
+                    <th>Size (K)</th>
+                    <th>Time Units Remaining</th>
+                </tr>
+            </table>
+        </div>
+
+        <div id="rightContainer">
+            <div id="memoryVisualization" style="height: 80vh; background-color: #34495e;"></div>
+        </div>
+    </div>
     <script src="/static/script.js"></script>
 </body>
 </html>
