@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify # type: ignore
-from app.mmu import MemoryManager
+from app.memory_manager import MemoryManager
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
 

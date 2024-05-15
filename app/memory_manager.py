@@ -37,13 +37,21 @@ class MemoryManager:
         return None, None, None
 
     def next_fit(self, size):
-        start_index = 0
-        searched = False
-        while True:
-            for i in range(start_index, len(self.free_blocks)):
-                base, limit = self.free_blocks[i]
-                if limit - base + 1 >= size:
-                    self.last_allocated_pid += 1
+        if len(self.processes) == 0 and size <= self.total_memory:
+            self.last_allocated += 1
+            pid = self.last_allocated
+            base = 0
+            new_base = base + size
+            self.processes[pid] = Process(pid, size, base)
+            self.free_blocks[0] = (new_base, self.total_memory - 1)
+            return pid, base, new_base - 1
+        elif size > self.total_memory:
+            return None, None, None
+        
+        for i, (base, limit) in enumerate(self.free_blocks):
+            if limit - base + 1 >= size:
+                if limit >= self.processes[self.last_allocated].limit:
+                    self.last_allocated += 1
                     pid = self.last_allocated
                     self.processes[pid] = Process(pid, size, base)
                     new_base = base + size
@@ -51,13 +59,9 @@ class MemoryManager:
                         self.free_blocks[i] = (new_base, limit)
                     else:
                         del self.free_blocks[i]
-                    self.last_allocated = i
                     return pid, base, new_base - 1
-            if searched:
-                break
-            start_index = 0
-            searched = True
         return None, None, None
+
 
     def best_fit(self, size):
         best_index = None
