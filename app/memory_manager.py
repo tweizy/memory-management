@@ -37,7 +37,7 @@ class MemoryManager:
         return None, None, None
 
     def next_fit(self, size):
-        if len(self.processes) == 0 and size <= self.total_memory:
+        if len(self.processes) == 0 or size <= self.total_memory:
             self.last_allocated += 1
             pid = self.last_allocated
             base = 0
