@@ -46,6 +46,13 @@ To run the MMU Simulator, you need to pass the total memory size (in KB) and the
 python mmu.py <total_memory_in_KB> <strategy_number>
 ```
 
+To run the web interface of the project, type in the following command:
+
+```bash
+python routes.py
+```
+Then you can access the web interface at: http://localhost:5000
+
 ### Command-Line Arguments:
 - `<total_memory_in_KB>`: The total size of the memory to manage (in kilobytes).
 - `<strategy_number>`: The number representing the memory allocation strategy:
