@@ -26,6 +26,8 @@ def operation():
     action = request.form['action']
     if action == 'create':
         size = int(request.form['size'])
+        if size <= 0:
+            return jsonify(success = False, message = "Enter positive size!")
         pid, base, limit = mmu.allocate_memory(size)
         if pid:
             return jsonify(success=True, message=f'Process {pid} created.', pid=pid, base=base, limit=limit)
@@ -39,6 +41,8 @@ def operation():
     elif action == 'convert':
         pid = int(request.form['pid'])
         virtual_address = int(request.form['virtual_address'])
+        if virtual_address<=0:
+            return jsonify(success=False, message="Virtual address must be positive integer!")
         result = mmu.convert_address(pid, virtual_address)
         if isinstance(result, str):  # Checking if the result is an error message
             return jsonify(success=False, message=result)
