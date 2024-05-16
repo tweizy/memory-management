@@ -47,7 +47,7 @@ class MemoryManager:
             return pid, base, new_base - 1
         elif size > self.total_memory:
             return None, None, None
-        
+        to_check = []
         for i, (base, limit) in enumerate(self.free_blocks):
             if limit - base + 1 >= size:
                 if limit >= self.processes[self.last_allocated].limit:
@@ -60,6 +60,19 @@ class MemoryManager:
                     else:
                         del self.free_blocks[i]
                     return pid, base, new_base - 1
+                else:
+                    to_check.append(self.free_blocks[i])
+        for i, (base, limit) in enumerate(to_check):
+            if limit - base + 1 >= size:
+                self.last_allocated += 1
+                pid = self.last_allocated
+                self.processes[pid] = Process(pid, size, base)
+                new_base = base + size
+                if new_base <= limit:
+                    self.free_blocks[i] = (new_base, limit)
+                else:
+                    del self.free_blocks[i]
+                return pid, base, new_base - 1
         return None, None, None
 
 
