@@ -1,5 +1,5 @@
 import sys
-from app.memory_manager import *
+from memory_manager import *
 
 def main():
     if len(sys.argv) != 3:

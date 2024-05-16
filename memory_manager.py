@@ -1,19 +1,28 @@
 class Process:
+    """
+    Represents a single process in memory, containing details about its ID, size, and memory location.
+    """
     def __init__(self, pid, size, base):
-        self.pid = pid
-        self.size = size
-        self.base = base
-        self.limit = base + size - 1
+        self.pid = pid          # Process ID
+        self.size = size        # Size of the process in KB
+        self.base = base        # Base address of the process in memory
+        self.limit = base + size - 1  # Limit address of the process in memory
 
 class MemoryManager:
+    """
+    Manages the allocation and deallocation of memory using different strategies.
+    """
     def __init__(self, total_memory, strategy):
-        self.total_memory = total_memory
-        self.strategy = strategy
-        self.processes = {}
-        self.free_blocks = [(0, total_memory - 1)]  # (base, limit)
-        self.last_allocated = 0  # For Next Fit
+        self.total_memory = total_memory  # Total size of the memory in KB
+        self.strategy = strategy          # Allocation strategy (1-4)
+        self.processes = {}               # Dictionary to store process information, keyed by PID
+        self.free_blocks = [(0, total_memory - 1)]  # List of tuples representing free memory blocks
+        self.last_allocated = 0           # Keeps track of the last allocated position for Next Fit
 
     def allocate_memory(self, size):
+        """
+        Delegates the memory allocation to the appropriate method based on the selected strategy.
+        """
         strategy_method = {
             1: self.first_fit,
             2: self.next_fit,
@@ -23,6 +32,9 @@ class MemoryManager:
         return strategy_method[self.strategy](size)
 
     def first_fit(self, size):
+        """
+        Allocates memory using the First Fit strategy: searches for the first free block that fits the size.
+        """
         for i, (base, limit) in enumerate(self.free_blocks):
             if limit - base + 1 >= size:
                 self.last_allocated += 1
@@ -37,6 +49,10 @@ class MemoryManager:
         return None, None, None
 
     def next_fit(self, size):
+        """
+        Allocates memory using the Next Fit strategy: starts from the last allocated block's position,
+        wraps around if necessary, and allocates the first fitting block.
+        """
         if len(self.processes) == 0 or size > self.total_memory:
             self.last_allocated += 1
             pid = self.last_allocated
@@ -77,6 +93,9 @@ class MemoryManager:
 
 
     def best_fit(self, size):
+        """
+        Allocates memory using the Best Fit strategy: finds the smallest block that fits the size.
+        """
         best_index = None
         min_diff = float('inf')
         for i, (base, limit) in enumerate(self.free_blocks):
@@ -97,6 +116,9 @@ class MemoryManager:
         return None, None, None
 
     def worst_fit(self, size):
+        """
+        Allocates memory using the Worst Fit strategy: selects the largest available block.
+        """
         worst_index = None
         max_diff = -1
         for i, (base, limit) in enumerate(self.free_blocks):
@@ -117,15 +139,21 @@ class MemoryManager:
         return None, None, None
 
     def delete_process(self, pid):
+        """
+        Deletes a process and frees its memory, then merges adjacent free memory blocks.
+        """
         if pid in self.processes:
             process = self.processes.pop(pid)
             self.free_blocks.append((process.base, process.limit))
-            self.free_blocks = sorted(self.free_blocks, key=lambda x: x[0])  # Keep sorted
+            self.free_blocks = sorted(self.free_blocks, key=lambda x: x[0]) 
             self.merge_free_blocks()
             return True
         return False
 
     def merge_free_blocks(self):
+        """
+        Merges adjacent or overlapping free memory blocks into a single block.
+        """
         merged_blocks = []
         last_base, last_limit = self.free_blocks[0]
         for base, limit in self.free_blocks[1:]:
@@ -138,6 +166,9 @@ class MemoryManager:
         self.free_blocks = merged_blocks
 
     def convert_address(self, pid, virtual_address):
+        """
+        Converts a virtual address to a physical address for a given process.
+        """
         if pid in self.processes:
             process = self.processes[pid]
             if 0 <= virtual_address < process.size:
@@ -149,6 +180,9 @@ class MemoryManager:
             return "Error: Process ID not found."
 
     def print_memory_map(self):
+        """
+        Prints a visual representation of the current memory map showing all processes and free spaces.
+        """
         print("Memory Map:")
         for pid, process in self.processes.items():
             print(f"Process {pid}: Base={process.base}, Limit={process.limit +1}")
