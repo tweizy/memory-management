@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     fetchMemoryMap();
 });
 
+// Set up event listeners for form submissions
 function setupFormEventListeners() {
     const forms = ['createForm', 'deleteForm', 'convertForm'];
     forms.forEach(formId => {
@@ -17,6 +18,7 @@ function setupFormEventListeners() {
     });
 }
 
+// Handle form submissions for create, delete, and convert actions
 function submitOperationForm(action) {
     const form = document.getElementById(action + 'Form');
     const formData = new FormData(form);
@@ -44,6 +46,7 @@ function submitOperationForm(action) {
     });
 }
 
+// Fetch memory blocks data and update visualization and table
 function fetchMemoryMap() {
     fetch('/memory_blocks')
     .then(response => {
@@ -66,6 +69,7 @@ function fetchMemoryMap() {
     });
 }
 
+// Update the visual representation of memory blocks
 function updateMemoryVisualization(blocks) {
     const visualization = document.getElementById('memoryVisualization');
     visualization.innerHTML = ''; // Clear existing visualization
@@ -77,7 +81,7 @@ function updateMemoryVisualization(blocks) {
     });
 }
 
-
+// Update memory allocation table
 function updateMemoryTable(blocks) {
     const table = document.getElementById('processTable');
     if (table) {
@@ -95,6 +99,7 @@ function updateMemoryTable(blocks) {
     }
 }
 
+// Display messages in a designated area on the page
 function displayMessage(message) {
     const messageDisplay = document.getElementById('messageDisplay');
     messageDisplay.textContent = message;
@@ -157,7 +162,7 @@ function renderMemoryChart(usedMemory, freeMemory) {
     });
 }
 
-
+// Function to restart the simulation by redirecting
 function restartSimulation() {
-    window.location.href = '/'; // Adjust if your root URL is different
+    window.location.href = '/';
 }

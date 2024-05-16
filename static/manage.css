@@ -100,7 +100,6 @@ body {
 .table th, .table td {
     color: #333; /* Darker text for readability */
 }
-/* Add any specific styles for your chart container if needed */
 #memoryChart {
     margin: 20px auto;
     display: block;
