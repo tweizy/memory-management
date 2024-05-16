@@ -30,7 +30,7 @@ The MMU Simulator is a Python-based application, requiring Python 3.x. To set up
 1. **Clone the repository:**
    ```bash
    git clone https://github.com/tweizy/memory-management.git
-   cd mmu-simulator
+   cd memory-manager
    ```
 
 2. **Install dependencies**:
