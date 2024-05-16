@@ -68,7 +68,7 @@ function updateMemoryVisualization(blocks) {
     blocks.forEach(block => {
         const blockDiv = document.createElement('div');
         blockDiv.className = `memory-block ${block.pid ? 'allocated' : 'free'}`;
-        blockDiv.textContent = `${block.pid ? `PID ${block.pid}: ${block.size}KB` : `Free: ${block.size}KB`}`;
+        blockDiv.textContent = `${block.pid ? `PID ${block.pid}: ${block.size}KB , Base : ${block.base}, Size : ${block.size}` : `Free: ${block.size} KB`}`;
         visualization.appendChild(blockDiv);
     });
 }
@@ -77,12 +77,14 @@ function updateMemoryVisualization(blocks) {
 function updateMemoryTable(blocks) {
     const table = document.getElementById('processTable');
     if (table) {
-        table.innerHTML = '<tr><th>Process ID</th><th>Size (K)</th><th>Status</th></tr>';
+        table.innerHTML = '<tr><th>Process ID</th><th>Size (K)</th><th>Status</th><th>Base</th></tr>';
         blocks.forEach(block => {
             const row = table.insertRow(-1);
             row.insertCell(0).textContent = block.pid ? `PID ${block.pid}` : 'Free';
             row.insertCell(1).textContent = `${block.size} KB`;
             row.insertCell(2).textContent = block.pid ? 'Allocated' : 'Free';
+            row.insertCell(3).textContent = `${block.base}`;
+
         });
     } else {
         console.error('MemoryMapTable element not found');

@@ -147,6 +147,9 @@ class MemoryManager:
             self.free_blocks.append((process.base, process.limit))
             self.free_blocks = sorted(self.free_blocks, key=lambda x: x[0]) 
             self.merge_free_blocks()
+            self.last_allocated = 0
+            for i in self.processes:
+                self.last_allocated = max(self.last_allocated, i)
             return True
         return False
 
@@ -181,13 +184,44 @@ class MemoryManager:
 
     def print_memory_map(self):
         """
-        Prints a visual representation of the current memory map showing all processes and free spaces.
+        Prints a visual representation of the current memory map showing all memory blocks
+        (allocated and free) sorted by their base address.
         """
         print("Memory Map:")
+
+        # Create a combined list of all memory blocks, both allocated and free.
+        memory_blocks = []
+
+        # Add process blocks to the list
         for pid, process in self.processes.items():
-            print(f"Process {pid}: Base={process.base}, Limit={process.limit +1}")
+            memory_blocks.append({
+                'type': 'Process',
+                'pid': pid,
+                'base': process.base,
+                'limit': process.limit,
+                'size': process.size
+            })
+
+        # Add free blocks to the list
         for base, limit in self.free_blocks:
-            print(f"Free: Base={base}, Limit={limit +1}")
+            memory_blocks.append({
+                'type': 'Free',
+                'pid': 'None',
+                'base': base,
+                'limit': limit,
+                'size': limit - base + 1
+            })
+
+        # Sort the combined list by base address
+        memory_blocks.sort(key=lambda block: block['base'])
+
+        # Print each block in the sorted list
+        for block in memory_blocks:
+            if block['type'] == 'Process':
+                print(
+                    f"Process {block['pid']}: Base={block['base']}, Limit={block['limit'] + 1}, Size={block['size']}KB")
+            else:
+                print(f"Free: Base={block['base']}, Limit={block['limit'] + 1}, Size={block['size']}KB")
 
     def get_memory_blocks(self):
         blocks = []
