@@ -55,6 +55,10 @@ function fetchMemoryMap() {
     .then(data => {
         updateMemoryVisualization(data.blocks);
         updateMemoryTable(data.blocks);
+        const totalMemory = data.total_memory;
+        const usedMemory = data.blocks.reduce((acc, block) => block.type === 'allocated' ? acc + block.size : acc, 0);
+        const freeMemory = totalMemory - usedMemory;
+        renderMemoryChart(usedMemory, freeMemory);
     })
     .catch(error => {
         console.error('Error fetching memory map:', error);
@@ -95,3 +99,61 @@ function displayMessage(message) {
     const messageDisplay = document.getElementById('messageDisplay');
     messageDisplay.textContent = message;
 }
+let memoryChart = null;
+
+function renderMemoryChart(usedMemory, freeMemory) {
+    const ctx = document.getElementById('memoryChart').getContext('2d');
+
+    // Destroy existing chart instance if it exists
+    if (memoryChart) {
+        memoryChart.destroy();
+    }
+
+    // Calculate percentages for the legend
+    const totalMemory = usedMemory + freeMemory;
+    const usedPercentage = ((usedMemory / totalMemory) * 100).toFixed(1);
+    const freePercentage = ((freeMemory / totalMemory) * 100).toFixed(1);
+
+    // Create a new chart instance
+    memoryChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['Used Memory', 'Free Memory'],
+            datasets: [{
+                label: 'Memory Usage',
+                data: [usedMemory, freeMemory],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top',
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(tooltipItem) {
+                            let label = tooltipItem.label || '';
+                            if (label) {
+                                label += ': ';
+                            }
+                            label += `${tooltipItem.raw} KB (${tooltipItem.dataset.data[tooltipItem.dataIndex] === usedMemory ? usedPercentage : freePercentage}%)`;
+                            return label;
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
