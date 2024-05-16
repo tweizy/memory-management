@@ -157,3 +157,7 @@ function renderMemoryChart(usedMemory, freeMemory) {
     });
 }
 
+
+function restartSimulation() {
+    window.location.href = '/'; // Adjust if your root URL is different
+}
